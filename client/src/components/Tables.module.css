@@ -50,8 +50,8 @@
 }
 
 table {
-  width: 96%;
-  margin: auto;
+  width: 100%;
+  margin: 65px auto;
   border-collapse: collapse;
 }
 
@@ -117,14 +117,6 @@ tr {
   width: 100%;
 }
 
-input[type="password"] {
-  padding: 10px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 90%;
-}
-
 .searchBar .searchButton {
   padding: 10px 15px;
   margin-top: 0px;
@@ -136,7 +128,6 @@ input[type="password"] {
 }
 
 .addCustomerButton {
-  width: 150px!important;
   padding: 10px 20px;
   margin-top: 0px;
   background-color: #1f5e6d;
@@ -255,7 +246,6 @@ form {
   left: 0;
   background-color: #fff;
   padding: 10px 0; /* Adjust padding for better spacing */
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
 }
 
 .userImage {

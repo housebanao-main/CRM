@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { FaAngleLeft, FaEdit, FaTrash } from 'react-icons/fa';
 import axios from 'axios';
-import styles from './CustomerTable.module.css';
+import styles from '../Tables.module.css';
 
 function PartnerTable() {
   const [partners, setPartners] = useState([]);
@@ -191,7 +191,7 @@ function PartnerTable() {
           <input
             type="text"
             className={styles.searchInput}
-            placeholder="Search by Partner ID, Name, PAN Number, or Phone Number"
+            placeholder="Search here"
             value={searchQuery}
             onChange={handleSearchChange}
           />

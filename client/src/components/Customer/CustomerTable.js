@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Modal from 'react-modal';
 import { FaAngleLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import styles from './CustomerTable.module.css';
+import styles from '../Tables.module.css';
 import axios from 'axios';
 
 const initialFormData = {

@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Header.module.css";
-import logo from "../assets/Logo-Vive.png";
+import logo from "../../assets/Logo-Vive.png";
 import axios from 'axios';
 
 const Header = () => {

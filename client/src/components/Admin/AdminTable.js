@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import styles from './CustomerTable.module.css'; // Import your CSS module for styling
+import styles from '../Tables.module.css'; // Import your CSS module for styling
 
 function AdminTable() {
     const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,18 +1,18 @@
 import SideNavigation from "../components/SideNavigation/SideNavigation";
 import Header from "../components/Header/Header";
-import AdminTable from "../components/Admin/AdminTable";
+import QuotationForm from "../components/Quotation/QuotationForm";
 
 import styles from "./Pages.module.css";
 
-const Admin = () => {
+const Quotation = () => {
 
   return (
     <div className={styles.container}>
       <Header />
       <SideNavigation />
-      <AdminTable />
+      <QuotationForm />
     </div>
   );
 };
 
-export default Admin;
+export default Quotation;

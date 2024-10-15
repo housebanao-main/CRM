@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTachometerAlt, faUser, faCog, faHandshake, faTruck, faSignOutAlt, faBook } from "@fortawesome/free-solid-svg-icons";
+import { faClipboardList, faFileInvoiceDollar, faAddressCard } from "@fortawesome/free-solid-svg-icons";
+
 import styles from "./SideNavigation.module.css";
 
 Modal.setAppElement('#root'); // Make sure to set the app element for accessibility
@@ -36,6 +38,10 @@ const SideNavigation = () => {
     navigate("/boq");
   }, [navigate]);
 
+  const onQuotationTextClick = useCallback(() => {
+    navigate("/quotation");
+  }, [navigate]);
+
   const onLeadTextClick = useCallback(() => {
     navigate("/Lead");
   }, [navigate]);
@@ -63,46 +69,53 @@ const SideNavigation = () => {
         <FontAwesomeIcon icon={faTachometerAlt} className={styles.icon} />
         Dashboard
       </div>
-      {(role === 'user' || role === 'admin') && (
-        <div className={styles.item} onClick={onCustomerTextClick}>
-          <FontAwesomeIcon icon={faUser} className={styles.icon} />
-          Customer
+
+      {/* Group Gomaterial Items */}
+      <div className={styles.groupHeader}>Gomaterial</div>
+      <div className={styles.item} onClick={onCustomerTextClick}>
+        <FontAwesomeIcon icon={faUser} className={styles.icon} />
+        Customer
+      </div>
+      <div className={styles.item} onClick={onPartnersTextClick}>
+        <FontAwesomeIcon icon={faHandshake} className={styles.icon} />
+        Partners
+      </div>
+      <div className={styles.item} onClick={onTransportTextClick}>
+        <FontAwesomeIcon icon={faTruck} className={styles.icon} />
+        Transports
+      </div>
+
+{/* Group Housebanao Items */}
+<div className={styles.groupHeader}>Housebanao</div>
+<div className={styles.item} onClick={onBoqTextClick}>
+  <FontAwesomeIcon icon={faClipboardList} className={styles.icon} />
+  Boq
+</div>
+<div className={styles.item} onClick={onQuotationTextClick}>
+  <FontAwesomeIcon icon={faFileInvoiceDollar} className={styles.icon} />
+  Quotation
+</div>
+<div className={styles.item} onClick={onLeadTextClick}>
+  <FontAwesomeIcon icon={faAddressCard} className={styles.icon} />
+  Lead
+</div>
+
+
+      {/* Admin at the Last */}
+      {role === 'admin' && (
+        <div className={styles.item} onClick={onAdminTextClick}>
+          <FontAwesomeIcon icon={faCog} className={styles.icon} />
+          Admin
         </div>
       )}
-      {role === 'admin' && (
-        <>
-          <div className={styles.item} onClick={onAdminTextClick}>
-            <FontAwesomeIcon icon={faCog} className={styles.icon} />
-            Admin
-          </div>
-          <div className={styles.item} onClick={onPartnersTextClick}>
-            <FontAwesomeIcon icon={faHandshake} className={styles.icon} />
-            Partners
-          </div>
-          <div className={styles.item} onClick={onTransportTextClick}>
-            <FontAwesomeIcon icon={faTruck} className={styles.icon} />
-            Transports
-          </div>
-        </>
-      )}
-      {(role === 'user' || role === 'admin') && (
-        <>
-          <div className={styles.item} onClick={onBoqTextClick}>
-            <FontAwesomeIcon icon={faBook} className={styles.icon} />
-            Boq
-          </div>
-          <div className={styles.item} onClick={onLeadTextClick}>
-            <FontAwesomeIcon icon={faBook} className={styles.icon} />
-            Lead
-          </div>
-        </>
-      )}
+
       <div className={styles.logoutItem}>
         <button className={styles.logout} onClick={onLogoutClick}>
           <FontAwesomeIcon icon={faSignOutAlt} className={styles.icon} />
           Logout
         </button>
       </div>
+
       <Modal
         isOpen={isLogoutModalOpen}
         onRequestClose={cancelLogout}
@@ -117,6 +130,7 @@ const SideNavigation = () => {
           <button onClick={cancelLogout} className={styles.cancelButton}>No</button>
         </div>
       </Modal>
+
       <div className={styles.copyright}>
         &copy; {new Date().getFullYear()} Vive Housebanao Technologies PVT LTD
       </div>
