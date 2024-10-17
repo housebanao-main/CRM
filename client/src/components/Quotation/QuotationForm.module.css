@@ -38,7 +38,7 @@
 }
 
 .formContent {
-    background-color: #f1f1f1;
+    background-color: #fff;
     padding: 25px;
     margin-bottom: 30px;
     border-radius: 10px;
@@ -133,12 +133,12 @@ button:hover {
 }
 
 .optionButton:hover {
-    background-color: #1a4c58;
+    background-color: #0c1c20;
     color: #fff;
 }
 
 .activeOption {
-    background-color: #1f5e6d; /* Fill color when selected */
+    background-color: #1b2b2f; /* Fill color when selected */
     color: #fff;
 }
 

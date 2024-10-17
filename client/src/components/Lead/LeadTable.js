@@ -110,6 +110,10 @@ function LeadTable() {
     }
   };
 
+  const handleEditLead = (lead) => {
+    navigate('/creation', { state: { lead } });
+  };
+
   const sendEmail = async (user, lead) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/email/send-email`, { user, lead });
@@ -259,8 +263,8 @@ function LeadTable() {
     }
   };
 
-  const handleCreateBoq = (lead) => {
-    navigate('/boq', { state: { lead } });
+  const handleLeadClick = (lead) => {
+    navigate('/creation', { state: { lead } });
   };
 
   const filteredLeads = leads.filter(lead =>
@@ -325,103 +329,54 @@ function LeadTable() {
             <th>Type</th>
             <th>Priority</th>
             <th>Status</th>
-            <th>Assign User</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
           {filteredLeads.map((lead, index) => (
-            <React.Fragment key={index}>
-              <tr
-                onClick={() => toggleExpand(lead._id)}
-                className={`${getPriorityClass(lead.priority)} ${getStatusClass(lead.status)}`}
-              >
-                <td>{lead.leadId}</td>
-                <td>
-                  <div>
-                    <strong>{lead.name}</strong><br />
-                    {lead.number}<br />
-                    {lead.email}
-                  </div>
-                </td>
-                <td>{lead.city}</td>
-                <td>{lead.type}</td>
-                <td>
-                  {(role === 'admin' || permissions.lead?.editor) ? (
-                    <select value={lead.priority} onChange={(e) => handlePriorityChange(e, lead)} className={styles.actionSelect}>
-                      <option value="High">High</option>
-                      <option value="Medium">Medium</option>
-                      <option value="Low">Low</option>
-                    </select>
-                  ) : (
-                    'N/A'
-                  )}
-                </td>
-                <td>
-                  {(role === 'admin' || permissions.lead?.editor) ? (
-                    <select value={lead.status} onChange={(e) => handleStatusChange(e, lead)} className={styles.actionSelect}>
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                      <option value="Boq Sent">Boq Sent</option>
-                      <option value="Deal Closed">Deal Closed</option>
-                      <option value="Meeting Done">Meeting Done</option>
-                    </select>
-                  ) : (
-                    'N/A'
-                  )}
-                </td>
-                <td>
-                  {(role === 'admin' || permissions.lead?.editor) && (
-                    <div>
-                      <input
-                        type="text"
-                        placeholder="Search User"
-                        value={lead.userSearchQuery}
-                        onChange={(e) => handleUserSearchChange(e, lead._id)}
-                        className={styles.userSearchInput}
-                      />
-                      {lead.userSearchQuery && (
-                        <div className={styles.userDropdown}>
-                          {lead.filteredUsers.map(user => (
-                            <div
-                              key={user._id}
-                              className={styles.userDropdownItem}
-                              onClick={() => handleUserSelect(user, lead._id)}
-                            >
-                              {user.name} ({user.email})
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      {lead.assignedUser && <p>Assigned to: {lead.assignedUser.name} ({lead.assignedUser.email})</p>}
-                    </div>
-                  )}
-                </td>
-              </tr>
-              {expandedLeadId === lead._id && (
-                <tr>
-                  <td colSpan="9">
-                    <div className={styles.expandedRow}>
-                      <p><strong>Budget:</strong> {lead.budget}</p>
-                      <p><strong>Type:</strong> {lead.type}</p>
-                      <p><strong>Plot:</strong> {lead.plotSize}</p>
-                      <p><strong>Email:</strong> {lead.email}</p>
-                      <p><strong>Number:</strong> {lead.number}</p>
-                      <p><strong>Pincode:</strong> {lead.pincode}</p>
-                      <p><strong>Address Line 1:</strong> {lead.addressLine1}</p>
-                      <p><strong>Address Line 2:</strong> {lead.addressLine2}</p>
-                      <p><strong>Day to Start:</strong> {lead.dayToStart}</p>
-                      <p><strong>Extra Info:</strong> {lead.extraInfo}</p>
-                      {(role === 'admin' || permissions.lead?.editor) && (
-                        <>
-                          <button onClick={(e) => { e.stopPropagation(); handleCreateBoq(lead); }} className={styles.actionButton}>Create BOQ</button>
-                          <button onClick={(e) => { e.stopPropagation(); openModal(lead); }} className={styles.actionButton}>Edit</button>
-                        </>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </React.Fragment>
+            <tr
+              key={index}
+              onClick={() => handleLeadClick(lead)} // Navigate to CreationPage when row is clicked
+              className={`${styles.row} ${styles[getPriorityClass(lead.priority)]} ${styles[getStatusClass(lead.status)]}`}
+            >
+              <td>{lead.leadId}</td>
+              <td>
+                <div>
+                  <strong>{lead.name}</strong><br />
+                  {lead.number}<br />
+                  {lead.email}
+                </div>
+              </td>
+              <td>{lead.city}</td>
+              <td>{lead.type}</td>
+              <td>
+                {(role === 'admin' || permissions.lead?.editor) ? (
+                  <select value={lead.priority} onClick={(e) => e.stopPropagation()} onChange={(e) => handlePriorityChange(e, lead)} className={styles.actionSelect}>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                ) : (
+                  'N/A'
+                )}
+              </td>
+              <td>
+                {(role === 'admin' || permissions.lead?.editor) ? (
+                  <select value={lead.status} onClick={(e) => e.stopPropagation()} onChange={(e) => handleStatusChange(e, lead)} className={styles.actionSelect}>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Boq Sent">Boq Sent</option>
+                    <option value="Deal Closed">Deal Closed</option>
+                    <option value="Meeting Done">Meeting Done</option>
+                  </select>
+                ) : (
+                  'N/A'
+                )}
+              </td>
+              <td>
+                <button onClick={(e) => { e.stopPropagation(); openModal(lead); }} className={styles.editButton}>Edit</button>
+              </td>
+            </tr>
           ))}
         </tbody>
       </table>

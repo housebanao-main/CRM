@@ -7,6 +7,7 @@ import Admin from "./pages/Admin";
 import Partner from "./pages/Partner";
 import Transport from "./pages/Transport";
 import Boq from "./pages/Boq";
+import Creation from "./pages/Creation";
 import Quotation from "./pages/Quotation";
 import Lead from "./pages/Lead";
 import PrivateRoute from './components/PrivateRoute';
@@ -55,6 +56,10 @@ function App() {
         title = "Boq";
         metaDescription = "Boq Page";
         break;
+        case "/creation":
+          title = "Creation";
+          metaDescription = "Creation Page";
+          break;
         case "/Quotation":
           title = "Quotation";
           metaDescription = "Quotation Page";
@@ -86,6 +91,7 @@ function App() {
       <Route path="/" element={<PrivateRoute element={Dashboard} requiredRole="user" />} />
       <Route path="/login" element={<Login />} />
       <Route path="/customers" element={<PrivateRoute element={Customers} requiredRole="user" />} />
+      <Route path="/creation" element={<PrivateRoute element={Creation} requiredRole="user" />} />
       <Route path="/admin" element={<PrivateRoute element={Admin} requiredRole="admin" />} />
       <Route path="/partner" element={<PrivateRoute element={Partner} requiredRole="user" />} />
       <Route path="/transport" element={<PrivateRoute element={Transport} requiredRole="user" />} />

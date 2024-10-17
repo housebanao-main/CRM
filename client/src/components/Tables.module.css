@@ -68,6 +68,7 @@ th, td {
 
 td {
   margin-bottom: 40px;
+  cursor: pointer;
 }
 
 th {

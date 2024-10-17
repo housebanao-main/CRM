@@ -1,3 +1,4 @@
+// Middleware and other imports (already present)
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
@@ -53,6 +54,9 @@ app.use('/api/customers', require('./routes/customerRoutes'));
 app.use('/api/partners', require('./routes/partnerRoutes'));
 app.use('/api/admins', require('./routes/adminRoutes'));
 app.use('/api/transports', require('./routes/transportRoutes'));
+app.use('/api/lead-steps', require('./routes/LeadStepsRoutes'));
+
+
 app.use(require('./routes/userAuth'));
 
 // Serve static files from the React app in the client/build directory

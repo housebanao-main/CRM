@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTachometerAlt, faUser, faCog, faHandshake, faTruck, faSignOutAlt, faBook } from "@fortawesome/free-solid-svg-icons";
-import { faClipboardList, faFileInvoiceDollar, faAddressCard } from "@fortawesome/free-solid-svg-icons";
+import { faFileInvoiceDollar, faAddressCard } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./SideNavigation.module.css";
 
@@ -32,14 +32,6 @@ const SideNavigation = () => {
 
   const onTransportTextClick = useCallback(() => {
     navigate("/transport");
-  }, [navigate]);
-
-  const onBoqTextClick = useCallback(() => {
-    navigate("/boq");
-  }, [navigate]);
-
-  const onQuotationTextClick = useCallback(() => {
-    navigate("/quotation");
   }, [navigate]);
 
   const onLeadTextClick = useCallback(() => {
@@ -87,14 +79,6 @@ const SideNavigation = () => {
 
 {/* Group Housebanao Items */}
 <div className={styles.groupHeader}>Housebanao</div>
-<div className={styles.item} onClick={onBoqTextClick}>
-  <FontAwesomeIcon icon={faClipboardList} className={styles.icon} />
-  Boq
-</div>
-<div className={styles.item} onClick={onQuotationTextClick}>
-  <FontAwesomeIcon icon={faFileInvoiceDollar} className={styles.icon} />
-  Quotation
-</div>
 <div className={styles.item} onClick={onLeadTextClick}>
   <FontAwesomeIcon icon={faAddressCard} className={styles.icon} />
   Lead
