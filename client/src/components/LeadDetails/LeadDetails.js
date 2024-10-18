@@ -40,7 +40,8 @@ const LeadDetails = () => {
   useEffect(() => {
     const fetchStepDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/api/lead-steps/${lead._id}`);
+        const response = await axios.get(`${API_BASE_URL}/lead-steps/${lead._id}`);
+
         const result = await response.json();
   
         if (result.leadSteps) {
@@ -77,7 +78,7 @@ const LeadDetails = () => {
   // Function to mark the step as done or update
   const saveStepDetails = useCallback(async (stepName, stepDetailsValue) => {
     try {
-      const response = await fetch('http://localhost:3002/api/lead-steps', {
+        const response = await axios.post(`${API_BASE_URL}/lead-steps`,{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +142,7 @@ const LeadDetails = () => {
     const stepDetailsValue = stepDetails[selectedStep];
     
     try {
-      const response = await fetch('http://localhost:3002/api/lead-steps', { 
+       const response = await axios.post(`${API_BASE_URL}/lead-steps`, { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
