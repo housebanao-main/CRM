@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios'; // Add this import statement
 import ActivityTimeline from './ActivityTimeline'; 
 import Tasks from './Tasks'; 
 import MoreDetails from './MoreDetails'; 
@@ -36,32 +37,34 @@ const LeadDetails = () => {
   const [selectedStep, setSelectedStep] = useState('Creation'); 
   const [completedSteps, setCompletedSteps] = useState([]); 
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   // Fetch saved steps when the component mounts
   useEffect(() => {
     const fetchStepDetails = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/lead-steps/${lead._id}`);
-
-        const result = await response.json();
-  
+        const result = response.data; // No need to use .json()
+    
         if (result.leadSteps) {
           const updatedSteps = { ...stepDetails };
           const completed = [];
-  
+    
           result.leadSteps.forEach((step) => {
             updatedSteps[step.stepName] = step.stepDetails;
-            if (step.stepDetails.trim()) {  // Check if step details are not empty
-              completed.push(step.stepName);  // Mark the step as completed
+            if (step.stepDetails.trim()) {
+              completed.push(step.stepName);
             }
           });
-  
+    
           setStepDetails(updatedSteps);
-          setCompletedSteps(completed); // Set completed steps
+          setCompletedSteps(completed);
         }
       } catch (error) {
         console.error('Error fetching step details:', error);
       }
     };
+    
   
     fetchStepDetails();
   }, [lead._id]);
@@ -77,22 +80,21 @@ const LeadDetails = () => {
 
   // Function to mark the step as done or update
   const saveStepDetails = useCallback(async (stepName, stepDetailsValue) => {
+    const payload = {
+      leadId: lead._id,   // Ensure this value is correct and not undefined
+      stepName: stepName, // Ensure this is a valid string like "Creation", "Quotation", etc.
+      stepDetails: stepDetailsValue, // This can be empty
+    };
+  
+    console.log('Sending payload:', payload);
+  
     try {
-        const response = await axios.post(`${API_BASE_URL}/lead-steps`,{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          leadId: lead._id,
-          stepName,
-          stepDetails: stepDetailsValue,
-        }),
-      });
-
-      const result = await response.json();
+      const response = await axios.post(`${API_BASE_URL}/lead-steps`, payload);
+  
+      const result = response.data;
       if (result.message === 'Step data saved successfully') {
-        console.log('Step auto-saved:', result);
+        console.log('Step saved:', result);
+  
         if (!completedSteps.includes(stepName)) {
           setCompletedSteps([...completedSteps, stepName]);
         }
@@ -101,6 +103,7 @@ const LeadDetails = () => {
       console.error('Error saving step data:', error);
     }
   }, [completedSteps, lead._id]);
+  
 
   // Handle textarea input changes with auto-save
   const handleInputChange = (e) => {
@@ -142,19 +145,13 @@ const LeadDetails = () => {
     const stepDetailsValue = stepDetails[selectedStep];
     
     try {
-       const response = await axios.post(`${API_BASE_URL}/lead-steps`, { 
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          leadId: lead._id,
-          stepName: selectedStep,
-          stepDetails: stepDetailsValue,
-        }),
+      const response = await axios.post(`${API_BASE_URL}/lead-steps`, { 
+        leadId: lead._id,         // Ensure this is valid
+        stepName: selectedStep,   // Ensure this is valid
+        stepDetails: stepDetailsValue, // Optional
       });
-    
-      const result = await response.json();
+  
+      const result = response.data;
       if (result.message === 'Step data saved successfully') {
         console.log('Step marked as done:', result);
   
@@ -163,16 +160,15 @@ const LeadDetails = () => {
           setCompletedSteps([...completedSteps, selectedStep]);
         }
   
-        // Check if the current step is "Closure"
+        // If the step is "Closure", mark all steps as done
         if (selectedStep === 'Closure') {
-          // Mark all steps as completed
-          setCompletedSteps([...steps]); // Set all steps as completed
+          setCompletedSteps([...steps]);  // Mark all steps as completed
         } else {
-          // Move to the next step if available
+          // Move to the next step
           const currentStepIndex = steps.indexOf(selectedStep);
           if (currentStepIndex < steps.length - 1) {
             const nextStep = steps[currentStepIndex + 1];
-            setSelectedStep(nextStep); // Move to the next step
+            setSelectedStep(nextStep);  // Move to the next step
           }
         }
       }
@@ -180,6 +176,7 @@ const LeadDetails = () => {
       console.error('Error saving step data:', error);
     }
   };
+  
 
   const tasks = [
     {
